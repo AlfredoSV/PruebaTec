@@ -104,16 +104,22 @@ namespace PruebaTec.Controllers
             var paises = string.Empty;
             var mensaje = "No se encontrarón coincidencias";
             var resultado = string.Empty;
+            var objetoRes = new NombreComun();
+
             var cliente = new HttpClient();
             var respuesta = await cliente.GetAsync($"https://api.nationalize.io/?name={nombre}");
 
             if (respuesta.IsSuccessStatusCode)
-                resultado = respuesta.Content.ReadAsStringAsync().Result.ToString();
-
-
-            if (!resultado.Equals(""))
             {
-                JsonConvert.DeserializeObject<NombreComun>(resultado).Country.ToList().ForEach(c => paises += c.Country_id + ",");
+                resultado = respuesta.Content.ReadAsStringAsync().Result.ToString();
+                objetoRes = JsonConvert.DeserializeObject<NombreComun>(resultado);
+            }
+            
+            
+
+            if (!resultado.Equals("") && objetoRes.Country.Any())
+            {
+                objetoRes.Country.ToList().ForEach(c => paises += c.Country_id + ",");
 
                 mensaje = $"El nombre ingresado es más común en: {paises.Trim(',')}";
 
