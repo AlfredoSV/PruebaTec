@@ -1,0 +1,24 @@
+﻿@model ResultadoEjercicio1
+@{
+}
+
+<form asp-action="Ejercicio1Res" asp-controller="Ejercicio">
+    <div class="form-group">
+        <input class="form-control" type="date" name="fechaAdqui" />
+    </div>
+
+
+    <div class="form-group">
+        <input class="btn btn-success" type="submit" value="Enviar" />
+    </div>
+
+
+</form>
+
+
+@if (Model != null && !Model.Equals(""))
+{
+    @Model.Mensaje1
+    <br />
+    @Model.Mensaje2
+}
